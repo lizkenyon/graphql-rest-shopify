@@ -7,15 +7,15 @@ const shopifyToken = '<Your Shopify Access Token>';
 const url = 'https:/yourstore.myshopify.com';
 
 //The Shopify API and version
-const restApiPrefix = '/admin/api/2020-10';
+const apiPrefix = '/admin/api/2020-10';
 
 //Shopify Product ID
 const restProductID = 1234567;
 const graphQLProductID = 'gid://shopify/Product/1234567';
 
 
-const path = `/products/${restProductID}.json`;
-const graphQLPath = `/admin/api/2021-04/graphql.json`;
+const restPath = `/products/${restProductID}.json`;
+const graphQLPath = `/graphql.json`;
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
@@ -34,7 +34,7 @@ function callback(error, response, body) {
 // Options for getting data from the REST API
 // Getting a product by ID
 const restGetOptions = {
-    url: `${url}${restApiPrefix}${path}`,
+    url: `${url}${apiPrefix}${restPath}`,
     headers: {
         'X-Shopify-Access-Token': shopifyToken,
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const restGetOptions = {
 // Options for updating data REST API
 // Update a product title
 const restUpdateOptions = {
-    url: `${url}${restApiPrefix}${path}`,
+    url: `${url}${apiPrefix}${restPath}`,
     method: 'PUT',
     headers: {
         'X-Shopify-Access-Token': shopifyToken,
@@ -65,7 +65,7 @@ const restUpdateOptions = {
 // Options for getting dating GraphQL API
 // Get a product by ID
 const graphQLGetOptions = {
-    url: `${url}${graphQLPath}`,
+    url: `${url}${apiPrefix}${graphQLPath}`,
     method: 'POST',
     headers: {
         'X-Shopify-Access-Token': shopifyToken,
@@ -78,7 +78,7 @@ const graphQLGetOptions = {
 // Update product title
 const graphQLUpdateOptions = {
     'method': 'POST',
-    'url': `${url}${graphQLPath}`,
+    'url': `${url}${apiPrefix}${graphQLPath}`,
     'headers': {
         'X-Shopify-Access-Token': shopifyToken,
         'Content-Type': 'application/json',
@@ -96,10 +96,11 @@ const graphQLUpdateOptions = {
       }
     }
   }`,
-        variables: { "input": { "title": "NEW POSTMAN TITLE", "id": "gid://shopify/Product/1234567" } }
+        variables: { "input": { "title": "NEW JS TITLE", "id": "gid://shopify/Product/1234567" } }
     })
 };
 
 
 // Make API call
+// Swap options for API call that you want to make
 request(restGetOptions, callback);

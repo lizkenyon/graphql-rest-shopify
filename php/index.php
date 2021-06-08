@@ -10,14 +10,14 @@ const SHOPIFY_ACCESS_TOKEN = '<Shopify API Token>';
 const URL = 'https://yourstore.myshopify.com';
 
 //Shopify API and version
-const REST_PREFIX = '/admin/api/2020-10';
+const API_PREFIX = '/admin/api/2020-10';
 
 //Shopifu Product ID
 const REST_PRODUCT_ID = 1234567;
 const GRAPHQL_PRODUCT_ID = 'gid://shopify/Product/1234567';
 
-$path = '/products/' . REST_PRODUCT_ID . '.json';
-$graphQLPath = '/admin/api/2021-04/graphql.json';
+$restPath = '/products/' . REST_PRODUCT_ID . '.json';
+$graphQLPath = '/graphql.json';
 
 // Create guzzle client
 $client = new Client(['base_uri' => URL]);
@@ -29,7 +29,7 @@ $client = new Client(['base_uri' => URL]);
 
 // Getting Data REST API
 // Get product by ID
-$response = $client->request('GET', REST_PREFIX . $path, [
+$response = $client->request('GET', API_PREFIX . $restPath, [
     'headers' => [
         'X-Shopify-Access-Token' => SHOPIFY_ACCESS_TOKEN,
         'Content-Type' => 'application/json',
@@ -49,7 +49,7 @@ $body = [
 
 $encodedBody = json_encode($body);
 
-$restUpdateResponse = $client->request('PUT', REST_PREFIX . $path, [
+$restUpdateResponse = $client->request('PUT', API_PREFIX . $restPath, [
     'headers' => [
         'X-Shopify-Access-Token' => SHOPIFY_ACCESS_TOKEN,
         'Content-Type' => 'application/json',
@@ -68,7 +68,7 @@ echo "REST Update Call: \n" . $restUpdateResponse->getBody();
 // Getting Data GraphQL API
 // Getting product by ID
 $body = [
-    'query' => "{ product(id: \"gid://shopify/Product/6592861700273\") { id title createdAt } }"
+    'query' => "{ product(id: \"gid://shopify/Product/1234567\") { id title createdAt } }"
 ];
 
 $encodedBody = json_encode($body);

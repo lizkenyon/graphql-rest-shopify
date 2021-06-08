@@ -18,16 +18,19 @@ func main() {
 	const url = "https://yourstore.myshopify.com"
 
 	//Shopify API and version
-	const restApiPrefix = "/admin/api/2020-10"
+	const apiPrefix = "/admin/api/2020-10"
 
 	// Shopify Product ID
 	const restProductID = "<Shopify product ID>"
 
-	path := "/products/" + restProductID + ".json"
-	location := url + restApiPrefix + path
+	restPath := "/products/" + restProductID + ".json"
+	graphqlPath := "/graphql.json";
 
+	location := url + apiPrefix + restPath
 
+	////////
 	// Get Product by ID REST
+	///////
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", location, nil)
 	req.Header.Set("X-Shopify-Access-Token", shopifyAccessToken)
@@ -39,33 +42,53 @@ func main() {
 		log.Fatal( err )
 	}
 
-	data, _ := ioutil.ReadAll( res.Body )
+	data, err := ioutil.ReadAll( res.Body )
+
+	if err != nil {
+		log.Fatal( err )
+	}
 
 	res.Body.Close()
 
 	fmt.Printf( "%s\n", data )
 
+	////////
 	// Get Product By ID GraphQL
-	graphQLUrl := url + "/admin/api/2021-04/graphql.json";
+	///////
+	graphQLUrl := url + apiPrefix + graphqlPath;
 
-	postBody, _ := json.Marshal(map[string]string{
+	postBody, err := json.Marshal(map[string]string{
 		"query": "{ product(id: \"gid://shopify/Product/<ID>\") { id title createdAt } }",
 	})
 
+	if err != nil {
+		log.Fatal( err )
+	}
+
 	requestBody := bytes.NewBuffer(postBody)
-	req2, _ := http.NewRequest("POST", graphQLUrl, requestBody)
+	req2, err := http.NewRequest("POST", graphQLUrl, requestBody)
+
+	if err != nil {
+		log.Fatal( err )
+	}
+
 	req2.Header.Set("X-Shopify-Access-Token", shopifyAccessToken)
 	req2.Header.Set("Content-Type", "application/json")
 
-	res2, err2 := client.Do(req2)
+	res2, err := client.Do(req2)
 
-	if err2 != nil {
-		log.Fatal(err2)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	data2, _ := ioutil.ReadAll(res2.Body)
+	data2, err := ioutil.ReadAll(res2.Body)
+
+	if err != nil {
+		log.Fatal( err )
+	}
 
 	res2.Body.Close()
 
+	//Prints GraphQL Product ID response
 	fmt.Printf("%s\n", data2)
 }
