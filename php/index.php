@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 use GuzzleHttp\Client;
 
 //Shopify API Token
-const SHOPIFY_ACCESS_TOKEN = '<Shopify API Token>';
+const SHOPIFY_ACCESS_TOKEN = '<123456789A>';
 
 //Shopify store API token was generated for
 const URL = 'https://yourstore.myshopify.com';

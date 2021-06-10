@@ -1,7 +1,7 @@
 const request = require('request');
 
 //Shopify API Token
-const shopifyToken = '<Your Shopify Access Token>';
+const shopifyToken = '<12345677890>';
 
 //The shopify store associated with the API token
 const url = 'https:/yourstore.myshopify.com';
@@ -17,6 +17,7 @@ const graphQLProductID = 'gid://shopify/Product/1234567';
 const restPath = `/products/${restProductID}.json`;
 const graphQLPath = `/graphql.json`;
 
+// callback to log the response from the API call
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
         const products = JSON.parse(body);
@@ -53,7 +54,7 @@ const restUpdateOptions = {
     body: JSON.stringify({
         "product": {
             "id": restProductID,
-            "title": "New JS REST Title"
+            "title": "New Javascript REST Title"
         }
     }),
 }
@@ -77,9 +78,9 @@ const graphQLGetOptions = {
 // Options for updating data Graphql API
 // Update product title
 const graphQLUpdateOptions = {
-    'method': 'POST',
-    'url': `${url}${apiPrefix}${graphQLPath}`,
-    'headers': {
+    method: 'POST',
+    url: `${url}${apiPrefix}${graphQLPath}`,
+    headers: {
         'X-Shopify-Access-Token': shopifyToken,
         'Content-Type': 'application/json',
     },
@@ -96,7 +97,7 @@ const graphQLUpdateOptions = {
       }
     }
   }`,
-        variables: { "input": { "title": "NEW JS TITLE", "id": "gid://shopify/Product/1234567" } }
+        variables: { "input": { "title": "NEW JS GraphQL TITLE", "id": "gid://shopify/Product/1234567" } }
     })
 };
 
