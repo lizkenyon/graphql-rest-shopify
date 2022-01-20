@@ -16,38 +16,44 @@ API_VERSION="${API_VERSION:-2022-01}"
 
 ## REST APIs
 
-# # Get all products
-# curl -X GET "https://${SHOP}/admin/api/${API_VERSION}/products.json" \
-#   -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
+# Get all products
+curl -X GET "https://${SHOP}/admin/api/${API_VERSION}/products.json" \
+  -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
 
-# # Get all customers
-# curl -X GET "https://${SHOP}/admin/api/${API_VERSION}/customers.json" \
-#   -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
+# Get all customers
+curl -X GET "https://${SHOP}/admin/api/${API_VERSION}/customers.json" \
+  -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
 
-# # Get all draft orders
-# curl -X GET "https://${SHOP}/admin/api/${API_VERSION}/draft_orders.json" \
-#   -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
+# Get all draft orders
+curl -X GET "https://${SHOP}/admin/api/${API_VERSION}/draft_orders.json" \
+  -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
 
-# # Create a new product
-# curl -X POST "https://${SHOP}/admin/api/${API_VERSION}/products.json" \
-#   -d '{"product":{"title":"Burton Custom Freestyle 151","body_html":"\u003cstrong\u003eGood snowboard!\u003c\/strong\u003e","vendor":"Burton","product_type":"Snowboard","tags":["Barnes \u0026 Noble","Big Air"]}}' \
-#   -H "Content-Type: application/json" \
-#   -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
+# Create a new product
+curl -X POST "https://${SHOP}/admin/api/${API_VERSION}/products.json" \
+  -d '{"product":{"title":"Burton Custom Freestyle 151","body_html":"\u003cstrong\u003eGood snowboard!\u003c\/strong\u003e","vendor":"Burton","product_type":"Snowboard","tags":["Barnes \u0026 Noble","Big Air"]}}' \
+  -H "Content-Type: application/json" \
+  -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
 
 
 ## GraphQL APIs
 
-# Products (https://shopify.dev/api/admin-graphql/2021-10/queries/products)
+# Get Products (https://shopify.dev/api/admin-graphql/2021-10/queries/products)
 
 curl -X POST "https://${SHOP}/admin/api/${API_VERSION}/graphql.json" \
   -d '{ "query": "{ products(first: 10) { edges { node { id title } } } }" }' \
   -H 'Content-Type: application/json' \
   -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
 
-# Products with Price Range (https://shopify.dev/api/admin-graphql/2021-10/queries/products)
+# Get Products with Price Range (https://shopify.dev/api/admin-graphql/2021-10/queries/products)
 
 curl -X POST "https://${SHOP}/admin/api/${API_VERSION}/graphql.json" \
-  -d '{ "query": "{ products(first: 10) { edges { node { id title priceRange { maxVariantPrice { amount } } } } } }" }' \
+  -d '{ "query": "{ products(first: 100) { edges { node { id title priceRange { maxVariantPrice { amount } } } } } }" }' \
   -H 'Content-Type: application/json' \
   -H "X-Shopify-Access-Token: ${API_PASSWORD}" | jq .
 
+# Create a product
+
+curl -X POST "https://${SHOP}/admin/api/${API_VERSION}/graphql.json" \
+  -d '{ "query": "mutation { productCreate(input: {title: \"Cool new product\", productType: \"Snowboard\", vendor: \"JadedPixel\"}) { product { id } } }" }' \
+  -H 'Content-Type: application/json' \
+  -H "X-Shopify-Access-Token: ${API_PASSWORD}"
