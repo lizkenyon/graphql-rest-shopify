@@ -32,7 +32,7 @@ node js
 ### Running Python
 
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 python main.py
 ```
 
