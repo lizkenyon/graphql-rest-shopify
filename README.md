@@ -10,12 +10,36 @@ If you would like to run the code yourself you will need
 * [An API Token for your shop](https://shopify.dev/tutorials/authenticate-a-private-app-with-shopify-admin)
 
 ### Running GO
-` go run main.go`
+
+```
+go run main.go
+```
 
 ### Running PHP
-`composer install`\
-`php index.php`
+
+```
+composer install
+php index.php
+```
 
 ### Running Node
-`npm install`\
-`node js`
+
+```
+npm install
+node js
+```
+
+### Running Python
+
+```
+pip install -r requirements.txt
+python main.py
+```
+
+### Running Bash
+
+> Assumes [cURL](https://curl.se/) and [jq](https://stedolan.github.io/jq/download/) are installed.
+
+```
+./main.sh
+```
